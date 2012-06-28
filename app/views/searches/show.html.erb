@@ -4,6 +4,9 @@
 </pre>
 <ul>
   <% @results['results'].each do |r| %>
-    <li><%= r['text'] %></li>
+    <li><img src="<%=r['profile_image_url']%>" height = "42" width="42"/>
+      <%= r['text'] %></li>
   <% end %>
-  </ul>
+</ul>
+
+
