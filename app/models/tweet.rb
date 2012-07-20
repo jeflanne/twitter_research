@@ -14,10 +14,25 @@ class Tweet < ActiveRecord::Base
     # String#downcase
     #tweeted_text.split
     # a = tweeted_text.split
-    text = tweeted_text.gsub(/#/, '').split(/\s+/)
+    text = tweeted_text.gsub(/#/, '').downcase.split.sort
     titles = Category.all.map(&:title).map(&:downcase)
 
-    titles.include?(a.each)
-    a.join
+    c = text & titles
+
+    c.map(&:capitalize).sort.join(', ')
+  end
+  # Returns a comma separated string of the current category titles.
+  def categories_as_string
+categories.map(&:title).sort.join(', ')
+  end
+  # Given a comma separated string of category titles, reset the categories for
+  # this tweet to the categories in the string.
+  def categories_as_string= (new_categories)
+    categories.clear
+    new_categories.split(/\s*,\s*/).each do |title|
+      cat = Category.where('LOWER(title) = ?', title.downcase).first
+      categories << cat if !cat.nil?
+
+    end
   end
 end
