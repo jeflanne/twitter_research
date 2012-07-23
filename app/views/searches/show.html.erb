@@ -3,7 +3,16 @@
   <% @results.each do |r| %>
     <li><img src="<%=r.profile_image_url%>" height = "42" width="42"/>
       <%= r.text %></li>
-  <% end %>
+      <% tweet = Tweet.new(:twitter_user => r.user,
+                           :tweeted_text => r.text,
+                           :tweeted_at => r.time_stamp) %>
+      <%= form_for(tweet) do |form| %>
+        <%= form.hidden_field(:twitter_user) %>
+        <%= form.hidden_field(:tweeted_text) %>
+        <%= form.hidden_field(:tweeted_at) %>
+        <%= form.submit('Save') %>
+      <% end %>
+    <% end %>
 </ul>
 
 
